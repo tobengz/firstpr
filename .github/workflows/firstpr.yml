@@ -1,0 +1,39 @@
+# firstpr runs on its own pull requests. If the output here is bad, the tool is bad.
+
+name: firstpr
+
+on:
+  pull_request_target:
+    types: [opened, reopened, synchronize]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: firstpr-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  welcome:
+    # Only strangers. `pull_request_target` runs with secrets, so keep the
+    # condition tight and never check out the contributor's tree into it.
+    if: >-
+      contains(fromJSON('["FIRST_TIME_CONTRIBUTOR","NONE"]'), github.event.pull_request.author_association)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # The working tree stays on the maintainers' commit: the convention
+          # files fed to the model must not be controllable by the pull request.
+          ref: ${{ github.event.pull_request.base.sha }}
+          fetch-depth: 0
+
+      - name: Fetch the proposed change as data only
+        run: git fetch --no-tags origin ${{ github.event.pull_request.head.sha }}
+
+      - uses: ./
+        with:
+          api-key: ${{ secrets.FIRSTPR_API_KEY }}
+          base: ${{ github.event.pull_request.base.sha }}
+          head: ${{ github.event.pull_request.head.sha }}

@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "firstpr"
+version = "0.1.0"
+description = "Repo-aware onboarding comments for first-time pull requests."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "firstpr contributors" }]
+keywords = [
+  "github",
+  "github-actions",
+  "maintainers",
+  "code-review",
+  "onboarding",
+  "llm",
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Software Development :: Quality Assurance",
+]
+dependencies = []
+
+[project.scripts]
+firstpr = "firstpr.cli:main"
+
+[project.urls]
+Repository = "https://github.com/OWNER/firstpr"
+
+[tool.setuptools.packages.find]
+where = ["src"]

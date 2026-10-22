@@ -1,0 +1,71 @@
+name: firstpr
+description: Comment on a contributor's first pull request using this repository's own conventions.
+author: firstpr contributors
+branding:
+  icon: message-circle
+  color: blue
+
+inputs:
+  api-key:
+    description: API key for an OpenAI-compatible chat completions endpoint.
+    required: true
+  github-token:
+    description: Token used to read contributor history and write the comment.
+    required: false
+    default: ${{ github.token }}
+  model:
+    description: Model name passed to the endpoint.
+    required: false
+    default: gpt-4.1-mini
+  base-url:
+    description: OpenAI-compatible endpoint root. Defaults to the OpenAI API.
+    required: false
+    default: ""
+  language:
+    description: Output language, or "auto" to follow the pull request title.
+    required: false
+    default: auto
+  base:
+    description: Git ref of the target branch.
+    required: false
+    default: ""
+  head:
+    description: Git ref holding the proposed change.
+    required: false
+    default: HEAD
+  only-first-time:
+    description: Skip anyone who has opened a pull request here before.
+    required: false
+    default: "true"
+  python-version:
+    description: Python used to run firstpr.
+    required: false
+    default: "3.12"
+
+runs:
+  using: composite
+  steps:
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ inputs.python-version }}
+
+    - name: Install firstpr
+      shell: bash
+      run: python -m pip install --quiet --disable-pip-version-check "${{ github.action_path }}"
+
+    - name: Write the comment
+      shell: bash
+      env:
+        FIRSTPR_API_KEY: ${{ inputs.api-key }}
+        FIRSTPR_MODEL: ${{ inputs.model }}
+        FIRSTPR_BASE_URL: ${{ inputs.base-url }}
+        FIRSTPR_LANGUAGE: ${{ inputs.language }}
+        GITHUB_TOKEN: ${{ inputs.github-token }}
+      run: |
+        set -euo pipefail
+        args=()
+        if [ -n "${{ inputs.base }}" ]; then args+=(--base "${{ inputs.base }}"); fi
+        if [ -n "${{ inputs.head }}" ]; then args+=(--head "${{ inputs.head }}"); fi
+        if [ "${{ inputs.only-first-time }}" = "true" ]; then args+=(--only-first-time); fi
+        firstpr review --post "${args[@]}"

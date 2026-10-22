@@ -1,0 +1,46 @@
+name: Bug report
+description: Something generated, crashed, or posted when it should not have.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Generated comments are the interesting bugs here. Paste the output, not a
+        summary of it.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected instead
+    validations:
+      required: true
+  - type: textarea
+    id: doctor
+    attributes:
+      label: Output of `firstpr doctor`
+      description: Redact your key; it is masked already.
+      render: text
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: firstpr version
+      placeholder: "0.1.0"
+    validations:
+      required: true
+  - type: dropdown
+    id: surface
+    attributes:
+      label: Where did it run
+      options:
+        - GitHub Actions (composite action)
+        - Local CLI
+        - Imported as a library
+    validations:
+      required: true

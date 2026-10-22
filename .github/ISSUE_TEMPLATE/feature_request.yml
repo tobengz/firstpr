@@ -1,0 +1,24 @@
+name: Feature request
+description: Propose a change in behaviour.
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What maintainer problem does this solve
+      description: Describe the pain, not the implementation.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What you would like to happen
+    validations:
+      required: true
+  - type: checkboxes
+    id: constraints
+    attributes:
+      label: Constraints
+      options:
+        - label: This can be done with the Python standard library only
+        - label: This does not let the model state facts it was not given
