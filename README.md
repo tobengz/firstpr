@@ -1,6 +1,6 @@
 # firstpr
 
-[![CI](https://github.com/OWNER/firstpr/actions/workflows/ci.yml/badge.svg)](https://github.com/OWNER/firstpr/actions/workflows/ci.yml)
+[![CI](https://github.com/tobengz/firstpr/actions/workflows/ci.yml/badge.svg)](https://github.com/tobengz/firstpr/actions/workflows/ci.yml)
 [![Python](https://img.shields.io/badge/python-3.11%2B-blue)](https://www.python.org)
 [![Dependencies](https://img.shields.io/badge/dependencies-0-brightgreen)](pyproject.toml)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
@@ -107,7 +107,7 @@ jobs:
 
       - run: git fetch --no-tags origin ${{ github.event.pull_request.head.sha }}
 
-      - uses: OWNER/firstpr@v0
+      - uses: tobengz/firstpr@v0
         with:
           api-key: ${{ secrets.FIRSTPR_API_KEY }}
           base: ${{ github.event.pull_request.base.sha }}
@@ -142,7 +142,7 @@ and restrict it to branches inside your repository.
 Zero dependencies, so there is nothing to install:
 
 ```bash
-git clone https://github.com/OWNER/firstpr
+git clone https://github.com/tobengz/firstpr
 cd firstpr
 
 export FIRSTPR_API_KEY=sk-...

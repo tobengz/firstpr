@@ -34,7 +34,7 @@ dependencies = []
 firstpr = "firstpr.cli:main"
 
 [project.urls]
-Repository = "https://github.com/OWNER/firstpr"
+Repository = "https://github.com/tobengz/firstpr"
 
 [tool.setuptools.packages.find]
 where = ["src"]
